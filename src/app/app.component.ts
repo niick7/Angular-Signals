@@ -1,4 +1,4 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -10,25 +10,15 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'angular-signals-example';
-  theme = signal('light');
-  label = this.theme();
+  price = 19;
+  quantity = signal(10);
+  // Computed signal is a signal which depends on another signal
+  // Computed signal is immutable - non self changed
+  // It will be only updated by quantity signal
+  // It is automatically updated by dependency quantity signal
+  totalPrice = computed(() => this.price * this.quantity());
 
-  constructor() {
-    // Effect work as a listener
-    effect(()=> {
-      // Whenever we change a theme signal anywhere in the code
-      // This effect will run
-      // Why? Because we are using the value of the signal here: this.label = this.theme();
-      // In the other words, effect depends on the theme signal
-      this.label = this.theme();
-    })
-    // The effect will at least run once
-  }
-
-  toggleDarkmode() {
-    // this.theme.set(this.theme() === 'light' ? 'dark' : 'light');
-    this.theme.update((currentValue) =>
-      currentValue === 'light' ? 'dark' : 'light'
-    );
+  changeQuantity(event: Event) {
+    this.quantity.set((event.target as HTMLInputElement).valueAsNumber || 0);
   }
 }

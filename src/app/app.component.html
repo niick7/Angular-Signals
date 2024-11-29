@@ -1,7 +1,3 @@
-<label>{{ label }}</label
+<label>{{ totalPrice() }}</label
 ><br />
-<!-- <label>{{ theme() }}</label
-><br /> -->
-<button (click)="toggleDarkmode()">Toggle</button>
-
-<router-outlet />
+<input type="number" value={{quantity()}} (change)="changeQuantity($event)" />
