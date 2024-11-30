@@ -1,24 +1,19 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component } from '@angular/core';
+import { Product } from './models/product';
 import { RouterOutlet } from '@angular/router';
+import { ProductListComponent } from './product/product-list/product-list.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ProductListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'angular-signals-example';
-  price = 19;
-  quantity = signal(10);
-  // Computed signal is a signal which depends on another signal
-  // Computed signal is immutable - non self changed
-  // It will be only updated by quantity signal
-  // It is automatically updated by dependency quantity signal
-  totalPrice = computed(() => this.price * this.quantity());
-
-  changeQuantity(event: Event) {
-    this.quantity.set((event.target as HTMLInputElement).valueAsNumber || 0);
-  }
+  allProducts: Product[] = [
+    { id: 1, name: 'Milk', price: 1.45 },
+    { id: 2, name: 'Bread', price: 3.9 },
+    { id: 3, name: 'Tomatoes', price: 2.2 },
+  ];
 }
